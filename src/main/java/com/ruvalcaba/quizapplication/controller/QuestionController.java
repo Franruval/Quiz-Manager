@@ -3,10 +3,7 @@ package com.ruvalcaba.quizapplication.controller;
 import com.ruvalcaba.quizapplication.QuestionModel;
 import com.ruvalcaba.quizapplication.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +27,10 @@ public class QuestionController {
     @GetMapping("difficulty/{difficulty}")
     public List<QuestionModel> getQuestionsByDifficulty(@PathVariable String difficulty){
         return questionService.getQuestionsByDifficulty(difficulty);
+    }
+
+    @PostMapping("add-question")
+    public String addQuestion(@RequestBody QuestionModel question){
+        return questionService.addQuestion(question);
     }
 }
