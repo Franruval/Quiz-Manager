@@ -21,4 +21,8 @@ public class QuestionService {
     public List<QuestionModel> getQuestionsByCategory(String category) {
         return questionDAO.findByCategory(category);
     }
+
+    public List<QuestionModel> getQuestionsByDifficulty(String difficulty) {
+        return questionDAO.findByDifficultyLevel(difficulty);
+    }
 }

@@ -12,7 +12,7 @@ public class QuestionModel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     private String category;
-    private String difficulty_level;
+    private String difficultyLevel;
     private String question_title;
     private String option1;
     private String option2;

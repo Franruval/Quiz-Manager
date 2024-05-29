@@ -26,4 +26,9 @@ public class QuestionController {
     public List<QuestionModel> getQuestionsByCategory(@PathVariable String category){
         return questionService.getQuestionsByCategory(category);
     }
+
+    @GetMapping("difficulty/{difficulty}")
+    public List<QuestionModel> getQuestionsByDifficulty(@PathVariable String difficulty){
+        return questionService.getQuestionsByDifficulty(difficulty);
+    }
 }
