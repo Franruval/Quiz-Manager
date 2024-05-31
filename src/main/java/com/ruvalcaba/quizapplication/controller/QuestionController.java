@@ -15,21 +15,25 @@ public class QuestionController {
     @Autowired
     QuestionService questionService;
 
-    @GetMapping("allQuestions")
+    // getAllQuestions will show all questions in a JSON format
+    @GetMapping("allQuestions") // URL:http://localhost:8080/questions/allQuestions
     public ResponseEntity<List<QuestionModel>> getAllQuestions(){
         return questionService.getAllQuestions();
     }
 
-    @GetMapping("category/{category}")
+    // Shows all questions by category
+    @GetMapping("category/{category}") // Available categories: JAVA, PYTHON
     public ResponseEntity<List<QuestionModel>> getQuestionsByCategory(@PathVariable String category){
         return questionService.getQuestionsByCategory(category);
     }
 
-    @GetMapping("difficulty/{difficulty}")
+    // Shows all questions by difficulty
+    @GetMapping("difficulty/{difficulty}") // Available difficulties: EASY, MEDIUM, HARD
     public List<QuestionModel> getQuestionsByDifficulty(@PathVariable String difficulty){
         return questionService.getQuestionsByDifficulty(difficulty);
     }
 
+    // Adds a question to the database with the fields specified in a JSON format
     @PostMapping("add-question")
     public ResponseEntity<String> addQuestion(@RequestBody QuestionModel question){
         return questionService.addQuestion(question);
