@@ -48,4 +48,15 @@ public class QuestionService {
         return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
 
     }
+
+    public ResponseEntity<String> deleteQuestion(Integer id) {
+        try{
+            questionDAO.deleteById(id);
+            return new ResponseEntity<>("Question" + id + "deleted succesfully", HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
+
+    }
 }
