@@ -16,13 +16,8 @@ public class QuestionService {
     @Autowired
     QuestionDAO questionDAO;
 
-    public ResponseEntity<List<QuestionModel>> getAllQuestions(){
-        try{
-            return new ResponseEntity<>(questionDAO.findAll(), HttpStatus.OK);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+    public List<QuestionModel> getAllQuestions(){
+        return questionDAO.findAll();
     }
 
     public ResponseEntity<List<QuestionModel>> getQuestionsByCategory(String category) {

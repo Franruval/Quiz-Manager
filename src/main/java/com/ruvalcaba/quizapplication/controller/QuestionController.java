@@ -1,8 +1,10 @@
 package com.ruvalcaba.quizapplication.controller;
 
 import com.ruvalcaba.quizapplication.model.QuestionModel;
+import com.ruvalcaba.quizapplication.response.ResponseHandler;
 import com.ruvalcaba.quizapplication.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,9 @@ public class QuestionController {
 
     // getAllQuestions will show all questions in a JSON format
     @GetMapping("allQuestions") // URL:http://localhost:8080/questions/allQuestions
-    public ResponseEntity<List<QuestionModel>> getAllQuestions(){
-        return questionService.getAllQuestions();
+    public ResponseEntity<Object> getAllQuestions(){
+        return ResponseHandler.responseBuilder(
+                "List of all available questions", HttpStatus.OK, questionService.getAllQuestions());
     }
 
     // Shows all questions by category
