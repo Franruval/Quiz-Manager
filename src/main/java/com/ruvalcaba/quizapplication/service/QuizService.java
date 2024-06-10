@@ -2,11 +2,13 @@ package com.ruvalcaba.quizapplication.service;
 
 import com.ruvalcaba.quizapplication.DAO.QuestionDAO;
 import com.ruvalcaba.quizapplication.DAO.QuizDAO;
+import com.ruvalcaba.quizapplication.exception.QuestionNotFoundException;
+import com.ruvalcaba.quizapplication.exception.QuizInvalidSizeException;
+import com.ruvalcaba.quizapplication.exception.QuizNotFoundException;
 import com.ruvalcaba.quizapplication.model.Answer;
 import com.ruvalcaba.quizapplication.model.QuestionModel;
 import com.ruvalcaba.quizapplication.model.QuestionModelWrapper;
 import com.ruvalcaba.quizapplication.model.QuizModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,24 +20,40 @@ import java.util.Optional;
 @Service
 public class QuizService {
 
-    @Autowired
     QuizDAO quizDAO;
-    @Autowired
     QuestionDAO questionDAO;
 
+    public QuizService(QuizDAO quizDAO, QuestionDAO questionDAO){
+        this.quizDAO=quizDAO;
+        this.questionDAO=questionDAO;
+    }
 
-    public ResponseEntity<String> createQuiz(String category, int totalQuestions, String title) {
+
+    public String createQuiz(String category, int totalQuestions, String title) {
+        if(questionDAO.findByCategory(category).isEmpty())
+            throw new QuestionNotFoundException("No questions with specified category were found");
+
+        if(totalQuestions==0)
+            throw new QuizInvalidSizeException("The quiz cannot be of size 0");
+
+        if(totalQuestions > questionDAO.findByCategory(category).size())
+            totalQuestions=questionDAO.findByCategory(category).size();
+
         List<QuestionModel> questions = questionDAO.findRandomQuestionsByCategory(category, totalQuestions);
+
 
         QuizModel quiz = new QuizModel();
         quiz.setQuizTitle(title);
         quiz.setQuestions(questions);
         quizDAO.save(quiz);
 
-        return new ResponseEntity<>("Success", HttpStatus.CREATED);
+        return "Success";
     }
 
-    public ResponseEntity<List<QuestionModelWrapper>> getQuiz(Long id) {
+    public List<QuestionModelWrapper> getQuiz(Long id) {
+        if(quizDAO.findById(id).isEmpty())
+            throw new QuizNotFoundException("No quiz with such ID was found");
+
         Optional<QuizModel> quiz = quizDAO.findById(id);
         List<QuestionModel> dbQuestions = quiz.get().getQuestions();
         List<QuestionModelWrapper> generatedQuiz = new ArrayList<>();
@@ -48,10 +66,13 @@ public class QuizService {
             generatedQuiz.add(qmw);
         }
 
-        return new ResponseEntity<>(generatedQuiz, HttpStatus.OK);
+        return generatedQuiz;
     }
 
-    public ResponseEntity<Integer> calculateScore(Long id, List<Answer> answers) {
+    public ResponseEntity<String> calculateScore(Long id, List<Answer> answers) {
+        if(quizDAO.findById(id).isEmpty())
+            throw new QuizNotFoundException("No quiz with such ID was found");
+
         Optional<QuizModel> quiz = quizDAO.findById(id);
         List<QuestionModel> dbQuestions = quiz.get().getQuestions();
 
@@ -62,6 +83,6 @@ public class QuizService {
                 correct++;
             i++;
         }
-        return new ResponseEntity<>(correct,HttpStatus.OK);
+        return new ResponseEntity<>("Score: " + correct,HttpStatus.OK);
     }
 }
