@@ -3,6 +3,7 @@ package com.ruvalcaba.quizapplication.service.implementation;
 import com.ruvalcaba.quizapplication.DAO.QuestionDAO;
 import com.ruvalcaba.quizapplication.exception.QuestionInvalidFormatException;
 import com.ruvalcaba.quizapplication.exception.QuestionNotFoundException;
+import com.ruvalcaba.quizapplication.exception.QuestionRepeatedIDException;
 import com.ruvalcaba.quizapplication.model.QuestionModel;
 import com.ruvalcaba.quizapplication.service.QuestionService;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class QuestionServiceImpl implements QuestionService {
         this.questionDAO = questionDAO;
     }
 
+    // Fetches all available questions
     @Override
     public List<QuestionModel> getAllQuestions(){
         return questionDAO.findAll();
@@ -40,13 +42,16 @@ public class QuestionServiceImpl implements QuestionService {
         return questionDAO.findByDifficultyLevel(difficulty);
     }
 
-    // Will throw exception if any of the fields of the QuestionModel are null
+    // Will throw exception if any of the fields of the QuestionModel are null or if the ID is repeated
     @Override
     public String addQuestion(QuestionModel q) {
         if(q.getCategory()==null || q.getQuestionTitle()==null || q.getCorrectAnswer()==null ||
                 q.getDifficultyLevel()==null || q.getOption1()==null || q.getOption2()==null ||
                 q.getOption3()==null || q.getOption4()==null)
             throw new QuestionInvalidFormatException("Invalid format, some fields are null");
+
+        if(questionDAO.findById(q.getId()).isPresent())
+            throw new QuestionRepeatedIDException("Question with specified ID already exists");
 
         questionDAO.save(q);
         return "Question added successfully";
@@ -61,6 +66,7 @@ public class QuestionServiceImpl implements QuestionService {
         return "Question with id=" + id + " deleted successfully";
     }
 
+    // Need to specify all fields including ID or will throw an exception
     @Override
     public String updateQuestion(QuestionModel q) {
         if(q.getId()==null || q.getCategory()==null || q.getQuestionTitle()==null || q.getCorrectAnswer()==null ||

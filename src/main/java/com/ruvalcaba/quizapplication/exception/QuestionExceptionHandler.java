@@ -21,4 +21,11 @@ public class QuestionExceptionHandler {
         QuestionException qe = new QuestionException(e.getMessage(),e.getCause(), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(qe,HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(QuestionRepeatedIDException.class)
+    public ResponseEntity<Object> handleQuestionRepeatedIDException(QuestionRepeatedIDException e){
+
+        QuestionException qe = new QuestionException(e.getMessage(),e.getCause(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(qe,HttpStatus.BAD_REQUEST);
+    }
 }
