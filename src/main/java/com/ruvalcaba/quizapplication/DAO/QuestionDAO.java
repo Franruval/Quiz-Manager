@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface QuestionDAO extends JpaRepository<QuestionModel, Integer> {
+public interface QuestionDAO extends JpaRepository<QuestionModel, Long> {
 
     List<QuestionModel> findByCategory(String category);
     List<QuestionModel> findByDifficultyLevel(String difficulty);

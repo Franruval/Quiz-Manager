@@ -27,14 +27,14 @@ public class QuizController {
 
     // getQuiz will generate a quiz with only the question title and options for a person to answer
     @GetMapping("get/{id}") // http://localhost:8080/quiz/get/1
-    public ResponseEntity<List<QuestionModelWrapper>> getQuiz(@PathVariable Integer id) {
+    public ResponseEntity<List<QuestionModelWrapper>> getQuiz(@PathVariable Long id) {
 
         return quizService.getQuiz(id);
     }
 
     //submitAnswers will submit the answers for a quiz and will return the total correct answers
     @PostMapping("submit/{id}") // http://localhost:8080/quiz/submit/1
-    public ResponseEntity<Integer> submitAnswers(@PathVariable Integer id, @RequestBody List<Answer> answers) {
+    public ResponseEntity<Integer> submitAnswers(@PathVariable Long id, @RequestBody List<Answer> answers) {
 
         return quizService.calculateScore(id, answers);
     }

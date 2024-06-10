@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class QuestionModelWrapper {
 
-    private Integer id;
+    private Long id;
     private String questionTitle;
     private String option1;
     private String option2;

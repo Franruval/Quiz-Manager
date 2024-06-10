@@ -11,7 +11,7 @@ public class QuizModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String quizTitle;
     @ManyToMany
     private List<QuestionModel> questions;

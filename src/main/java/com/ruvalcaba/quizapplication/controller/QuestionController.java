@@ -3,19 +3,19 @@ package com.ruvalcaba.quizapplication.controller;
 import com.ruvalcaba.quizapplication.model.QuestionModel;
 import com.ruvalcaba.quizapplication.response.ResponseHandler;
 import com.ruvalcaba.quizapplication.service.QuestionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("questions")
 public class QuestionController {
 
-    @Autowired
     QuestionService questionService;
+
+    public QuestionController(QuestionService questionService){
+        this.questionService=questionService;
+    }
 
     // getAllQuestions will show all questions in a JSON format
     @GetMapping("all") // URL:http://localhost:8080/questions/all
@@ -51,10 +51,14 @@ public class QuestionController {
     }
 
     // This method deletes a question from the database specifying the id
-    @DeleteMapping("delete")
-    // Example delete question URL: // http://localhost:8080/questions/delete?id=17
-    public ResponseEntity<String> deleteQuestion(@RequestParam Integer id){
+    @DeleteMapping("delete") // Example delete question URL: // http://localhost:8080/questions/delete?id=17
+    public ResponseEntity<String> deleteQuestion(@RequestParam Long id){
         return new ResponseEntity<>(questionService.deleteQuestion(id), HttpStatus.OK);
+    }
+
+    @PutMapping("update")
+    public ResponseEntity<String> updateQuestion(@RequestBody QuestionModel question){
+        return new ResponseEntity<>(questionService.updateQuestion(question), HttpStatus.OK);
     }
 }
 

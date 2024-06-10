@@ -35,7 +35,7 @@ public class QuizService {
         return new ResponseEntity<>("Success", HttpStatus.CREATED);
     }
 
-    public ResponseEntity<List<QuestionModelWrapper>> getQuiz(Integer id) {
+    public ResponseEntity<List<QuestionModelWrapper>> getQuiz(Long id) {
         Optional<QuizModel> quiz = quizDAO.findById(id);
         List<QuestionModel> dbQuestions = quiz.get().getQuestions();
         List<QuestionModelWrapper> generatedQuiz = new ArrayList<>();
@@ -51,7 +51,7 @@ public class QuizService {
         return new ResponseEntity<>(generatedQuiz, HttpStatus.OK);
     }
 
-    public ResponseEntity<Integer> calculateScore(Integer id, List<Answer> answers) {
+    public ResponseEntity<Integer> calculateScore(Long id, List<Answer> answers) {
         Optional<QuizModel> quiz = quizDAO.findById(id);
         List<QuestionModel> dbQuestions = quiz.get().getQuestions();
 

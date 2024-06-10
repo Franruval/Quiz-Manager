@@ -10,7 +10,7 @@ public class QuestionModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String category;
     private String difficultyLevel;
     private String questionTitle;
