@@ -18,35 +18,43 @@ public class QuestionController {
     QuestionService questionService;
 
     // getAllQuestions will show all questions in a JSON format
-    @GetMapping("allQuestions") // URL:http://localhost:8080/questions/allQuestions
+    @GetMapping("all") // URL:http://localhost:8080/questions/all
     public ResponseEntity<Object> getAllQuestions(){
         return ResponseHandler.responseBuilder(
-                "List of all available questions", HttpStatus.OK, questionService.getAllQuestions());
+                "List of all available questions",
+                HttpStatus.OK,
+                questionService.getAllQuestions());
     }
 
     // Shows all questions by category
     @GetMapping("category/{category}") // Available categories: JAVA, PYTHON
-    public ResponseEntity<List<QuestionModel>> getQuestionsByCategory(@PathVariable String category){
-        return questionService.getQuestionsByCategory(category);
+    public ResponseEntity<Object> getQuestionsByCategory(@PathVariable String category){
+        return ResponseHandler.responseBuilder(
+                "Questions filtered by category",
+                HttpStatus.OK,
+                questionService.getQuestionsByCategory(category));
     }
 
     // Shows all questions by difficulty
     @GetMapping("difficulty/{difficulty}") // Available difficulties: EASY, MEDIUM, HARD
-    public List<QuestionModel> getQuestionsByDifficulty(@PathVariable String difficulty){
-        return questionService.getQuestionsByDifficulty(difficulty);
+    public ResponseEntity<Object> getQuestionsByDifficulty(@PathVariable String difficulty){
+        return ResponseHandler.responseBuilder(
+                "Questions filtered by difficulty",
+                HttpStatus.OK,
+                questionService.getQuestionsByDifficulty(difficulty));
     }
 
     // Adds a question to the database with the fields specified in a JSON format
-    @PostMapping("add-question")
+    @PostMapping("add")
     public ResponseEntity<String> addQuestion(@RequestBody QuestionModel question){
-        return questionService.addQuestion(question);
+        return new ResponseEntity<>(questionService.addQuestion(question),HttpStatus.OK);
     }
 
     // This method deletes a question from the database specifying the id
-    @PostMapping("delete-question")
-    // Example delete question URL: // http://localhost:8080/questions/delete-question?id=17
+    @DeleteMapping("delete")
+    // Example delete question URL: // http://localhost:8080/questions/delete?id=17
     public ResponseEntity<String> deleteQuestion(@RequestParam Integer id){
-        return questionService.deleteQuestion(id);
+        return new ResponseEntity<>(questionService.deleteQuestion(id), HttpStatus.OK);
     }
 }
 

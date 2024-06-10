@@ -14,4 +14,11 @@ public class QuestionExceptionHandler {
         QuestionException qe = new QuestionException(e.getMessage(),e.getCause(), HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(qe,HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(QuestionInvalidFormatException.class)
+    public ResponseEntity<Object> handleQuestionInvalidFormatException(QuestionInvalidFormatException e){
+
+        QuestionException qe = new QuestionException(e.getMessage(),e.getCause(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(qe,HttpStatus.BAD_REQUEST);
+    }
 }
