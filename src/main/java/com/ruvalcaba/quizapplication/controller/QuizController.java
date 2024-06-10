@@ -36,7 +36,7 @@ public class QuizController {
     @PostMapping("submit/{id}") // http://localhost:8080/quiz/submit/1
     public ResponseEntity<String> submitAnswers(@PathVariable Long id, @RequestBody List<Answer> answers) {
 
-        return quizService.calculateScore(id, answers);
+        return new ResponseEntity<>(quizService.calculateScore(id, answers), HttpStatus.OK);
     }
 }
     /*

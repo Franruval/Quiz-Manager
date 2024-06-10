@@ -69,7 +69,7 @@ public class QuizService {
         return generatedQuiz;
     }
 
-    public ResponseEntity<String> calculateScore(Long id, List<Answer> answers) {
+    public String calculateScore(Long id, List<Answer> answers) {
         if(quizDAO.findById(id).isEmpty())
             throw new QuizNotFoundException("No quiz with such ID was found");
 
@@ -83,6 +83,6 @@ public class QuizService {
                 correct++;
             i++;
         }
-        return new ResponseEntity<>("Score: " + correct,HttpStatus.OK);
+        return "Score: " + correct + " correct out of " + dbQuestions.size() + " total questions";
     }
 }
