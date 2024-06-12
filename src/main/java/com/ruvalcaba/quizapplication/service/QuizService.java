@@ -1,7 +1,7 @@
 package com.ruvalcaba.quizapplication.service;
 
-import com.ruvalcaba.quizapplication.DAO.QuestionDAO;
-import com.ruvalcaba.quizapplication.DAO.QuizDAO;
+import com.ruvalcaba.quizapplication.repository.QuestionRepo;
+import com.ruvalcaba.quizapplication.repository.QuizRepo;
 import com.ruvalcaba.quizapplication.exception.QuestionNotFoundException;
 import com.ruvalcaba.quizapplication.exception.QuizInvalidSizeException;
 import com.ruvalcaba.quizapplication.exception.QuizNotFoundException;
@@ -9,8 +9,6 @@ import com.ruvalcaba.quizapplication.model.Answer;
 import com.ruvalcaba.quizapplication.model.QuestionModel;
 import com.ruvalcaba.quizapplication.model.QuestionModelWrapper;
 import com.ruvalcaba.quizapplication.model.QuizModel;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,41 +18,41 @@ import java.util.Optional;
 @Service
 public class QuizService {
 
-    QuizDAO quizDAO;
-    QuestionDAO questionDAO;
+    QuizRepo quizRepo;
+    QuestionRepo questionRepo;
 
-    public QuizService(QuizDAO quizDAO, QuestionDAO questionDAO){
-        this.quizDAO=quizDAO;
-        this.questionDAO=questionDAO;
+    public QuizService(QuizRepo quizRepo, QuestionRepo questionRepo){
+        this.quizRepo = quizRepo;
+        this.questionRepo = questionRepo;
     }
 
 
     public String createQuiz(String category, int totalQuestions, String title) {
-        if(questionDAO.findByCategory(category).isEmpty())
+        if(questionRepo.findByCategory(category).isEmpty())
             throw new QuestionNotFoundException("No questions with specified category were found");
 
         if(totalQuestions==0)
             throw new QuizInvalidSizeException("The quiz cannot be of size 0");
 
-        if(totalQuestions > questionDAO.findByCategory(category).size())
-            totalQuestions=questionDAO.findByCategory(category).size();
+        if(totalQuestions > questionRepo.findByCategory(category).size())
+            totalQuestions= questionRepo.findByCategory(category).size();
 
-        List<QuestionModel> questions = questionDAO.findRandomQuestionsByCategory(category, totalQuestions);
+        List<QuestionModel> questions = questionRepo.findRandomQuestionsByCategory(category, totalQuestions);
 
 
         QuizModel quiz = new QuizModel();
         quiz.setQuizTitle(title);
         quiz.setQuestions(questions);
-        quizDAO.save(quiz);
+        quizRepo.save(quiz);
 
         return "Success";
     }
 
     public List<QuestionModelWrapper> getQuiz(Long id) {
-        if(quizDAO.findById(id).isEmpty())
+        if(quizRepo.findById(id).isEmpty())
             throw new QuizNotFoundException("No quiz with such ID was found");
 
-        Optional<QuizModel> quiz = quizDAO.findById(id);
+        Optional<QuizModel> quiz = quizRepo.findById(id);
         List<QuestionModel> dbQuestions = quiz.get().getQuestions();
         List<QuestionModelWrapper> generatedQuiz = new ArrayList<>();
 
@@ -70,10 +68,10 @@ public class QuizService {
     }
 
     public String calculateScore(Long id, List<Answer> answers) {
-        if(quizDAO.findById(id).isEmpty())
+        if(quizRepo.findById(id).isEmpty())
             throw new QuizNotFoundException("No quiz with such ID was found");
 
-        Optional<QuizModel> quiz = quizDAO.findById(id);
+        Optional<QuizModel> quiz = quizRepo.findById(id);
         List<QuestionModel> dbQuestions = quiz.get().getQuestions();
 
         int correct=0;

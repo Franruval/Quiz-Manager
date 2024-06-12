@@ -1,6 +1,6 @@
 package com.ruvalcaba.quizapplication.service.implementation;
 
-import com.ruvalcaba.quizapplication.DAO.QuestionDAO;
+import com.ruvalcaba.quizapplication.repository.QuestionRepo;
 import com.ruvalcaba.quizapplication.exception.QuestionInvalidFormatException;
 import com.ruvalcaba.quizapplication.exception.QuestionNotFoundException;
 import com.ruvalcaba.quizapplication.exception.QuestionRepeatedIDException;
@@ -13,36 +13,36 @@ import java.util.List;
 @Service // or @Component
 public class QuestionServiceImpl implements QuestionService {
 
-    QuestionDAO questionDAO;
+    QuestionRepo questionRepo;
 
     // Dependency injection
-    public QuestionServiceImpl(QuestionDAO questionDAO){
-        this.questionDAO = questionDAO;
+    public QuestionServiceImpl(QuestionRepo questionRepo){
+        this.questionRepo = questionRepo;
     }
 
     // Fetches all available questions
     @Override
     public List<QuestionModel> getAllQuestions(){
-        return questionDAO.findAll();
+        return questionRepo.findAll();
     }
 
     // Will throw an exception if no questions are found
     @Override
     public List<QuestionModel> getQuestionsByCategory(String category) {
-        if(questionDAO.findByCategory(category).isEmpty())
+        if(questionRepo.findByCategory(category).isEmpty())
             throw new QuestionNotFoundException("No questions match the specified category");
-        return questionDAO.findByCategory(category);
+        return questionRepo.findByCategory(category);
     }
 
     // Will throw an exception if the id is not found
     @Override
     public List<QuestionModel> getQuestionsByDifficulty(String difficulty) {
-        if(questionDAO.findByDifficultyLevel(difficulty).isEmpty())
+        if(questionRepo.findByDifficultyLevel(difficulty).isEmpty())
             throw new QuestionNotFoundException("No questions match the specified difficulty");
-        return questionDAO.findByDifficultyLevel(difficulty);
+        return questionRepo.findByDifficultyLevel(difficulty);
     }
 
-    // Will throw exception if any of the fields of the QuestionModel are null or if the ID is repeated
+    // Will throw exception if any of the fields of the QuestionModel are null
     @Override
     public String addQuestion(QuestionModel q) {
         if(q.getCategory()==null || q.getQuestionTitle()==null || q.getCorrectAnswer()==null ||
@@ -50,19 +50,16 @@ public class QuestionServiceImpl implements QuestionService {
                 q.getOption3()==null || q.getOption4()==null)
             throw new QuestionInvalidFormatException("Invalid format, some fields are null");
 
-        if(questionDAO.findById(q.getId()).isPresent())
-            throw new QuestionRepeatedIDException("Question with specified ID already exists");
-
-        questionDAO.save(q);
+        questionRepo.save(q);
         return "Question added successfully";
     }
 
     // Will throw an exception if the specified ID is not found
     @Override
     public String deleteQuestion(Long id) {
-        if(questionDAO.findById(id).isEmpty())
+        if(questionRepo.findById(id).isEmpty())
             throw new QuestionNotFoundException("The question with specified ID doesn't exists");
-        questionDAO.deleteById(id);
+        questionRepo.deleteById(id);
         return "Question with id=" + id + " deleted successfully";
     }
 
@@ -74,7 +71,7 @@ public class QuestionServiceImpl implements QuestionService {
                 q.getOption3()==null || q.getOption4()==null)
             throw new QuestionInvalidFormatException("Invalid format, some fields are null");
 
-        questionDAO.save(q);
+        questionRepo.save(q);
         return "Question updated successfully";
     }
 }

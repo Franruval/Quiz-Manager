@@ -1,4 +1,4 @@
-package com.ruvalcaba.quizapplication.DAO;
+package com.ruvalcaba.quizapplication.repository;
 
 import com.ruvalcaba.quizapplication.model.QuestionModel;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface QuestionDAO extends JpaRepository<QuestionModel, Long> {
+public interface QuestionRepo extends JpaRepository<QuestionModel, Long> {
 
     List<QuestionModel> findByCategory(String category);
     List<QuestionModel> findByDifficultyLevel(String difficulty);
