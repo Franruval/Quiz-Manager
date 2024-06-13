@@ -1,9 +1,9 @@
 package com.ruvalcaba.quizapplication.controller;
 
 import com.ruvalcaba.quizapplication.model.Answer;
-import com.ruvalcaba.quizapplication.model.QuestionModel;
 import com.ruvalcaba.quizapplication.model.QuestionModelWrapper;
 import com.ruvalcaba.quizapplication.service.QuizService;
+import com.ruvalcaba.quizapplication.service.implementation.QuizServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

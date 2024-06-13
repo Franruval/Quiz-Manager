@@ -1,7 +1,5 @@
 package com.ruvalcaba.quizapplication.service;
 
-import com.ruvalcaba.quizapplication.exception.QuestionInvalidFormatException;
-import com.ruvalcaba.quizapplication.exception.QuestionNotFoundException;
 import com.ruvalcaba.quizapplication.model.QuestionModel;
 
 import java.util.List;
