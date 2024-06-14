@@ -30,10 +30,10 @@ public class QuizServiceImpl implements QuizService {
 
     public String createQuiz(String category, int totalQuestions, String title) {
         if(questionRepo.findByCategory(category).isEmpty())
-            throw new QuestionNotFoundException("No questions with specified category were found");
+            throw new QuestionNotFoundException("No questions with the specified category were found");
 
-        if(totalQuestions==0)
-            throw new QuizInvalidSizeException("The quiz cannot be of size 0");
+        if(totalQuestions<=0)
+            throw new QuizInvalidSizeException("The quiz cannot be of size 0 or less");
 
         if(totalQuestions > questionRepo.findByCategory(category).size())
             totalQuestions= questionRepo.findByCategory(category).size();
@@ -68,7 +68,7 @@ public class QuizServiceImpl implements QuizService {
         return generatedQuiz;
     }
 
-    public String calculateScore(Long id, List<Answer> answers) {
+    public Integer calculateScore(Long id, List<Answer> answers) {
         if(quizRepo.findById(id).isEmpty())
             throw new QuizNotFoundException("No quiz with such ID was found");
 
@@ -82,6 +82,6 @@ public class QuizServiceImpl implements QuizService {
                 correct++;
             i++;
         }
-        return "Score: " + correct + " correct out of " + dbQuestions.size() + " total questions";
+        return correct;
     }
 }

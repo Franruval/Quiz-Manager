@@ -34,7 +34,7 @@ public class QuizController {
 
     //submitAnswers will submit the answers for a quiz and will return the total correct answers
     @PostMapping("submit/{id}") // http://localhost:8080/quiz/submit/1
-    public ResponseEntity<String> submitAnswers(@PathVariable Long id, @RequestBody List<Answer> answers) {
+    public ResponseEntity<Integer> submitAnswers(@PathVariable Long id, @RequestBody List<Answer> answers) {
 
         return new ResponseEntity<>(quizService.calculateScore(id, answers), HttpStatus.OK);
     }

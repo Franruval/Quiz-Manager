@@ -1,10 +1,12 @@
 package com.ruvalcaba.quizapplication.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @AllArgsConstructor
 @Data
+@Builder
 public class QuestionModelWrapper {
 
     private Long id;

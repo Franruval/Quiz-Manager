@@ -9,5 +9,5 @@ public interface QuizService {
 
     public String createQuiz(String category, int totalQuestions, String title);
     public List<QuestionModelWrapper> getQuiz(Long id);
-    public String calculateScore(Long id, List<Answer> answers);
+    public Integer calculateScore(Long id, List<Answer> answers);
 }

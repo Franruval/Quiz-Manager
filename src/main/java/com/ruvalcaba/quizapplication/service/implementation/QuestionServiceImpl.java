@@ -3,7 +3,6 @@ package com.ruvalcaba.quizapplication.service.implementation;
 import com.ruvalcaba.quizapplication.repository.QuestionRepo;
 import com.ruvalcaba.quizapplication.exception.QuestionInvalidFormatException;
 import com.ruvalcaba.quizapplication.exception.QuestionNotFoundException;
-import com.ruvalcaba.quizapplication.exception.QuestionRepeatedIDException;
 import com.ruvalcaba.quizapplication.model.QuestionModel;
 import com.ruvalcaba.quizapplication.service.QuestionService;
 import org.springframework.stereotype.Service;
