@@ -47,7 +47,7 @@ public class QuestionController {
     // Adds a question to the database with the fields specified in a JSON format
     @PostMapping("add")
     public ResponseEntity<String> addQuestion(@RequestBody QuestionModel question){
-        return new ResponseEntity<>(questionService.addQuestion(question),HttpStatus.OK);
+        return new ResponseEntity<>(questionService.addQuestion(question),HttpStatus.CREATED);
     }
 
     // This method deletes a question from the database specifying the id
