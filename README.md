@@ -12,9 +12,9 @@ Fetching all existing questions:<br>
 ![alt text](https://github.com/Franruval/Quiz-Manager/blob/main/src/main/resources/static/img/getAll.png?raw=true) <br>
 Updating question:<br>
 ![alt text](https://github.com/Franruval/Quiz-Manager/blob/main/src/main/resources/static/img/updateQuestion.png?raw=true) <br>
-Deleting question:
+Deleting question: <br>
 ![alt text](https://github.com/Franruval/Quiz-Manager/blob/main/src/main/resources/static/img/deleteQuestion.png?raw=true) <br>
-Deleting question with an invalid ID:
+Deleting question with an invalid ID: <br>
 ![alt text](https://github.com/Franruval/Quiz-Manager/blob/main/src/main/resources/static/img/deleteException.png?raw=true) <br>
 Fetching questions by category: <br>
 ![alt text](https://github.com/Franruval/Quiz-Manager/blob/main/src/main/resources/static/img/getCategory.png?raw=true) <br>
