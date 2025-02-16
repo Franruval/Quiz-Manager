@@ -3,6 +3,8 @@ package com.ruvalcaba.quizapplication.controller;
 import com.ruvalcaba.quizapplication.model.QuestionModel;
 import com.ruvalcaba.quizapplication.response.ResponseHandler;
 import com.ruvalcaba.quizapplication.service.QuestionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +19,12 @@ public class QuestionController {
         this.questionService=questionService;
     }
 
+    //public static final Logger logInfo = LoggerFactory.getLogger(QuestionController.class);
+
     // getAllQuestions will show all questions in a JSON format
     @GetMapping("all") // URL:http://localhost:8080/questions/all
     public ResponseEntity<Object> getAllQuestions(){
+        //logInfo.info("Test log");
         return ResponseHandler.responseBuilder(
                 "List of all available questions",
                 HttpStatus.OK,
